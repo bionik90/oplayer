@@ -22,8 +22,17 @@ dsn = "mysql://USER:PASSWORD@HOST/DBNAME;charset=utf8"
 artists = "24*60*60"
 
 [vk]
-appId = 3396818
-userId = 45156834
+; Standalone application ID
+appId[] = 3778291
+; Login and password from VK account
+account[] = "email:password"
+
+; You can set as many accounts, as you want by duplicate account[] line.
+; Example:
+;  account[] = "email1:password1"
+;  account[] = "email2:password2"
+; 
+; The same is with appId[] line.
 
 [seo]
 title = "Слушай музыку онлайн на Open Player"
