@@ -20,7 +20,7 @@ $app = new Silex\Application();
 
 $app['debug'] = 'localhost' == $_SERVER['HTTP_HOST'];
 ini_set("display_errors", $app['debug'] ? "on" : "off");
- $app['debug'] = 1;//@TODO remove
+
 
 require_once ROOT . '/services.php';
 require_once ROOT . '/controllers.php';
