@@ -1,5 +1,5 @@
 <?php
-
+die('This file doesn`t work anymore, use OpenPlayer3.php instead. This file is saved for history.');
 namespace OpenPlayer;
 
 // file caching
@@ -48,22 +48,25 @@ class Core {
     $this->userId = $userId;
   }
 
-  public function audioSearch($q, $page = 0, $count = 10, $cacheTime = 86400) {
+  public function audioSearch( $q, $page = 0, $count = 10, $cacheTime = 86400 ) {
     $q = str_replace("&", " ", $q);
-    if (!$page || $page <= 0)
+
+    if ( !$page || $page <= 0 ) {
       $page = 0;
-    else
+    } else {
       $page *= $count;
+    }
         
     $cachekey = "vkontakte_" . sha1($q . $page . $count) . ".xml";
     $result = Cache::get($cachekey);
-    if (!$result) {
+    if ( !$result ) {
       $params = array(
         'api_id' => $this->appId,
-        'v' => '3.0',
+        'v' => '5.0',
         'method' => 'audio.search',
         'count' => $count,
         'offset' => $page,
+        'scope' => 'audio',
         'q' => $q,
         'format' => 'json',
         'test_mode' => 1
@@ -72,18 +75,21 @@ class Core {
       ksort($params);
       $http_query = http_build_query($params);
 
-      $tsig = $this->userId . str_replace('&', '', urldecode($http_query));
+      $tsig = $this->userId . str_replace( '&', '', urldecode($http_query) );
       $sig = md5($tsig);
 
-      $result = file_get_contents("http://api.vkontakte.ru/api.php?" . $http_query . "&sig=" . $sig);
+      $result = file_get_contents("https://api.vk.com/api.php?" . $http_query . "&sig=" . $sig);
+      // echo "http://api.vk.com/api.php?" . $http_query . "&sig=" . $sig;die;
+      print_r($result);die;
       Cache::set($cachekey, $result, $cacheTime);
     }
-        
+
     $result = json_decode($result);
     if ( isset($result->response) ) {
       $result = $result->response;
       $count = $result[0];
       unset($result[0]);
+
       foreach ($result as $key => $value) {
         $result[$key] = (array) $value;
       }
@@ -91,7 +97,7 @@ class Core {
       $result = array();
       $count = 0;
     }
-            
+
     return array(
       'count' => $count,
       'result' => $result
@@ -113,7 +119,7 @@ class Core {
     $tsig = $this->userId . str_replace('&', '', $http_query);
     $sig = md5($tsig);
 
-    $result = file_get_contents("http://api.vkontakte.ru/api.php?" . $http_query . "&sig=" . $sig);
+    $result = file_get_contents("http://api.vk.com/api.php?" . $http_query . "&sig=" . $sig);
     $result = json_decode($result);
     $result = $result->response;
             
@@ -176,14 +182,14 @@ class Core {
       // }
 
       $urlParsed = parse_url($url);
-      if (isset($urlParsed)) {
+      if ( isset($urlParsed) ) {
         curl_setopt($ch, CURLOPT_URL, $url);
         $redirects++;
         return $this->curl_redirect_exec($ch, $redirects);
       }
     }
 
-    if ($curloptHeader) {
+    if ( $curloptHeader ) {
       return $data;
     } else {
       $ttt = explode("\r\n\r\n", $data, 2);
