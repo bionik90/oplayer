@@ -9,7 +9,7 @@ $app->get('/part/{file}', function($file) use($app) {
 		return new Response("WTF?");	
 	}
 
-    return $app['view']->render(null, "part/{$file}.phtml");
+  return $app['view']->render(null, "part/{$file}.phtml");
 });
 
 $app->get('/cc', function() use($app) {
