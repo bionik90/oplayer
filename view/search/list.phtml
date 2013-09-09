@@ -13,7 +13,6 @@
 
 <div class="x-tracks">
 	<?php foreach ( $res->getCurrentPageResults() as $track ): ?>
-		<?php $track['vkid'] = "{$track['owner_id']}_{$track['aid']}"; ?>
 		<?php include __DIR__.'/../part/track.phtml' ?>
 	<?php endforeach ?>
 

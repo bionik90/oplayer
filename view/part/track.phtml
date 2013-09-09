@@ -1,5 +1,5 @@
 <div class="x-track" 
-	data-vkid="<?php echo $track['vkid'] ?>"
+	data-vkid="<?php echo $track['vkId'] ?>"
 	data-lyricsid="<?php echo isset($track['lyrics_id']) ? $track['lyrics_id'] : '' ?>"
 	data-artist="<?php echo $track['artist'] ?>"
 	data-name="<?php echo $track['title'] ?>"
@@ -13,8 +13,8 @@
 		<a href="/search/<?php echo urlencode(str_replace("/", " ", $track['artist'])) ?>" title="Слушать <?php echo $track['artist'] ?> онлайн"><?php echo trunc($track['artist'], 50) ?></a>
 	</strong>
 	—
-	<?php $link = $app['conf']->getOption('app', 'baseHref') . "track/{$track['vkid']}" ?>
-	<a href="<?php echo $link ?>" title="Страница трека"><?php echo trunc($track['title'], 50) ?></a> (<?php echo view_ducation($track['duration']) ?>)
+	<?php $link = $app['conf']->getOption('app', 'baseHref') . "track/{$track['vkId']}" ?>
+	<a href="<?php echo $link ?>" title="Страница трека"><?php echo trunc($track['title'], 50) ?></a> (<?php echo $track['duration'] ?>)
 	
 	<div class="ic-block">
 		<?php if ( isset($track['lyrics_id']) && $track['lyrics_id'] > 0 ): ?> 
@@ -32,7 +32,7 @@
 		<?php endif ?>
 
 		<?php if ( conf('options', 'enabledownload', 1) ): ?>
-			<a href="/getsong/<?php echo $track['vkid'] ?>?dl=1" siteload="siteload" target="_blank" class="x-icons x-icon-download" title="Скачать">&nbsp;</a>
+			<a href="/getsong/<?php echo $track['vkId'] ?>?dl=1" siteload="siteload" target="_blank" class="x-icons x-icon-download" title="Скачать">&nbsp;</a>
 		<?php endif ?>
 
 		<?php if ( conf('options', 'enableshare', 1) ): ?>

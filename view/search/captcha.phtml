@@ -1,0 +1,10 @@
+<h1>Введите, пожалуйста, текст с картинки</h1>
+
+
+<form action="/entercaptcha" method="POST">
+  <input type="hidden" name="sid" value="<?php echo $sid ?>"/>
+  <img src="<?php echo $img ?>"/><br/>
+  <input type="text" name="key" value=""/><br/>
+
+  <input type="submit" value="Отправить"/>
+</form>
