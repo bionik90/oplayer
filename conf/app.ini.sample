@@ -24,8 +24,8 @@ artists = "24*60*60"
 [vk]
 ; Standalone application ID
 appId[] = 3778291
-; Login and password from VK account
-account[] = "email:password"
+; Login, password and phone from VK account
+vk[] = "login:password:phone"
 
 ; You can set as many accounts, as you want by duplicate account[] line.
 ; Example:
