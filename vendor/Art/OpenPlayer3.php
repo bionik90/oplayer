@@ -42,7 +42,7 @@ class OpenPlayer {
         // echo 'wtf';die;
         $form = $html->find('form', -1);
         if ( $action = $form->action ) {
-          $accountInfo = explode(':', $account, 2);
+          $accountInfo = explode(':', $account, 3);
           $params = array(
             'email' => $accountInfo[0],
             'pass' => $accountInfo[1]
