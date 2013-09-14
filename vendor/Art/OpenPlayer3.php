@@ -61,6 +61,37 @@ class OpenPlayer {
           $resp = $self->curl_redirect_exec($ch);
           curl_close($ch);
 
+          // Проверка номера телефона
+          if ( false !== strpos($resp, 'security_check') && isset($accountInfo[2]) ) {
+            preg_match_all("/hash: \'([\w\d]+)\'/", $resp, $matches);
+
+            if ( $hash = $matches[1][0] ) {
+              $params = array(
+                '_ajax' => '1',
+                'code' => substr($accountInfo[2], 2, -2),
+              );
+
+              $ch = curl_init();
+              $curl_header = array(
+                'X-Requested-With' => 'XMLHttpRequest',
+                'Referer' => 'http://m.vk.com/login.php?act=security_check&to=&al_page='
+              );
+              curl_setopt($ch, CURLOPT_HTTPHEADER, $curl_header);
+              curl_setopt($ch, CURLOPT_URL, "http://m.vk.com/login.php?act=security_check&to=&hash={$hash}");
+              curl_setopt($ch, CURLOPT_POST, true);
+              curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+              curl_setopt($ch, CURLOPT_HEADER, 1);
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+              curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
+              curl_setopt($ch, CURLOPT_COOKIEJAR, $cookiepath);
+              curl_setopt($ch, CURLOPT_COOKIEFILE, $cookiepath);
+              curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+
+              $resp = $self->curl_redirect_exec($ch);
+              curl_close($ch);
+            }
+          }
+
           if ( false !== strpos($resp, 'service_msg_warning') ) {
             header("Location:/vkerror");
             die;
@@ -324,6 +355,8 @@ class OpenPlayer {
       //this part has been changed from the original
       preg_match("/(Location:|URI:)[^(\n)]*/", $header, $matches);
       $url = trim( str_replace($matches[1], "", $matches[0]) );
+      
+      if ( false === strpos($url, 'http') ) { $url = "http://vk.com{$url}"; }
 
       if ( preg_match_all('/access_token=(.*)&expires_in=86400/i', $url, $matches) ) {
         $this->access_token = $matches[1][0];
