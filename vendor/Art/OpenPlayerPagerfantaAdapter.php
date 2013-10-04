@@ -13,7 +13,7 @@ class OpenPlayerPagerfantaAdapter implements \Pagerfanta\Adapter\AdapterInterfac
 
       $data = \Project\Cache::get("vk_search_{$q}_p_{$p}_ipp_{$ipp}", 60*60*24*7, function() use ($openplayer, $q, $p, $ipp) {
         $data = $openplayer->search( 
-          $this->q, $this->p, $this->ipp
+          $q, $p, $ipp
         );
 
         if ( $data['tracks'] ) {
